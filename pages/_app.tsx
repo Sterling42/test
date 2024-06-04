@@ -11,7 +11,7 @@ import { BackpackWalletAdapter } from "@solana/wallet-adapter-backpack";
 
 require("@solana/wallet-adapter-react-ui/styles.css");
 require("../styles/globals.css");
-require ("../styles/Home.module.css");
+require("../styles/Home.module.css");
 
 const App = ({ Component, pageProps }) => {
   // Can be set to 'devnet', 'testnet', or 'mainnet-beta'
