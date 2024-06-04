@@ -11,6 +11,7 @@ const Home = () => {
 
   useEffect(() => {
     if (publicKey) {
+      setLoading(true);
       fetch(`/api/users/${publicKey.toString()}`)
         .then((res) => {
           if (!res.ok) {
@@ -23,7 +24,7 @@ const Home = () => {
           setLoading(false);
         })
         .catch((error) => {
-          console.error(error);
+          console.error('Error fetching user:', error);
           setLoading(false);
         });
     } else {

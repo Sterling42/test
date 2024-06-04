@@ -32,9 +32,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const user = await collection.findOne({ walletAddress });
 
       if (user) {
+        // User already exists
         return res.status(200).json(user);
       }
 
+      // Register new user
       const newUser = {
         walletAddress,
         stats: {
