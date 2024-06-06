@@ -19,6 +19,8 @@ const UserSchema = new mongoose.Schema({
   },
   xGold: { type: Number, default: 0 },
   XP: { type: Number, default: 0 },
+  wins: { type: Number, default: 0 }, // Add this line
+  losses: { type: Number, default: 0 }, // Add this line
 });
 
 module.exports = mongoose.models.User || mongoose.model('User', UserSchema);

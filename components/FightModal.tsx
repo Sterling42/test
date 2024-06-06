@@ -75,16 +75,16 @@ const handleFight = async () => {
     <div className={styles.FightModal}>
       <div className={styles.FightModalContent}>
         <div className={styles.statsContainer}>
-          <div>
-            <h1>Target Dummy</h1>
-            {enemyStats && Object.keys(enemyStats).map((stat) => (
-              <p key={stat}>{stat}: {enemyStats[stat]}</p>
-            ))}
-          </div>
-          <div>
+        <div>
             <h1>User Stats</h1>
             {userStats && Object.keys(userStats).map((stat) => (
               <p key={stat}>{stat}: {userStats[stat]}</p>
+            ))}
+          </div>
+          <div>
+            <h1>Enemy Stats</h1>
+            {enemyStats && Object.keys(enemyStats).map((stat) => (
+              <p key={stat}>{stat}: {enemyStats[stat]}</p>
             ))}
           </div>
         </div>

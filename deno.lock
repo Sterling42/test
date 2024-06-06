@@ -72,6 +72,7 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
+        "npm:@primer/octicons-react@^19.9.0",
         "npm:@solana/wallet-adapter-backpack@^0.1.13",
         "npm:@solana/wallet-adapter-base@^0.9.22",
         "npm:@solana/wallet-adapter-phantom@^0.9.22",
@@ -89,6 +90,7 @@
         "npm:mongoose@^8.4.1",
         "npm:netlify-cli@^17.25.0",
         "npm:next@^14.2.3",
+        "npm:react-awesome-button@^7.0.5",
         "npm:react-dom@^18.3.1",
         "npm:react@^18.3.1",
         "npm:typescript@^4.6.3"

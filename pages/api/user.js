@@ -3,7 +3,6 @@ import dbConnect from '../../lib/mongodb';
 import User from '../../models/User';
 
 export default async function handler(req, res) {
-  console.log('Received request:', req.method, req.body, req.query); // Log the received request
   const { method } = req;
 
   await dbConnect();
@@ -26,36 +25,37 @@ export default async function handler(req, res) {
         res.status(400).json({ success: false, error: error.message });
       }
       break;
-    case 'POST':
-      try {
-        const { walletAddress, stats } = req.body;
-        if (!walletAddress || walletAddress.length !== 44) {
+      case 'POST':
+        try {
+          const { walletAddress, stats } = req.body;
+          if (!walletAddress || walletAddress.length !== 44) {
+            return res.status(400).json({ success: false, message: 'Invalid wallet address' });
+          }
+          const existingUser = await User.findOne({ walletAddress });
+          if (existingUser) {
+            return res.status(400).json({ success: false, message: 'Wallet already registered' });
+          }
+      
+          // Create the new user
+          const user = new User({
+            walletAddress,
+            stats,
+          });
+      
+          // Save the user to the database
+          await user.save();
+      
+          res.status(201).json({ success: true, data: user });
+        } catch (error) {
+          res.status(400).json({ success: false, error: error.message });
+        }
+        break;
+      
+      case 'PUT':
+        const { walletAddress: updateWalletAddress, stats, xGold, XP } = req.body;
+        if (!updateWalletAddress || updateWalletAddress.length !== 44) {
           return res.status(400).json({ success: false, message: 'Invalid wallet address' });
         }
-        const existingUser = await User.findOne({ walletAddress });
-        if (existingUser) {
-          return res.status(400).json({ success: false, message: 'Wallet already registered' });
-        }
-
-        // Create the new user
-        const user = new User({
-          walletAddress,
-          stats,
-        });
-
-        // Save the user to the database
-        await user.save();
-
-        res.status(201).json({ success: true, data: user });
-      } catch (error) {
-        res.status(400).json({ success: false, error: error.message });
-      }
-      break;
-    case 'PUT':
-      const { walletAddress: updateWalletAddress, stats, xGold, XP } = req.body;
-      if (!updateWalletAddress || updateWalletAddress.length !== 44) {
-        return res.status(400).json({ success: false, message: 'Invalid wallet address' });
-      }
       try {
         const user = await User.findOne({ walletAddress: updateWalletAddress });
         if (user) {

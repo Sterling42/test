@@ -17,6 +17,8 @@ interface UserStatsProps {
   xGold: number;
   XP: number;
   setCurrencies: (xGold: number, XP: number) => void;
+  wins: number; // Add this line
+  losses: number; // Add this line
 }
 
 const statDescriptions = {
@@ -31,7 +33,7 @@ const statDescriptions = {
   DGN: 'Represents your character\'s degeneration.',
 };
 
-export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserStats, xGold, XP, setCurrencies }) => {
+export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserStats, xGold, XP, setCurrencies, wins, losses }) => {
   const [showFightModal, setShowFightModal] = useState(false);
 
   const handleFightClick = () => {
@@ -66,10 +68,13 @@ export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserSta
 
   const handleIncrement = async (stat: string) => {
     const updatedStats = { ...stats, [stat]: stats[stat] + 1 };
+    const totalPower = Object.values(updatedStats).reduce((a, b) => a + b, 0); // Calculate total power
+  
     try {
       const response = await axios.put(`/api/user`, {
         walletAddress,
         stats: updatedStats,
+        totalPower, // Send total power to the server
       });
       setUserStats(response.data.data.stats);
     } catch (err) {
@@ -84,6 +89,8 @@ export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserSta
         <div className={styles.CharacterImage}>
           <Image src={characterImage} alt="Character" layout="fill" objectFit="contain" />
         </div>
+        {/* Total Power */}
+        <p>Total Power: {Object.values(stats).reduce((a, b) => a + b, 0)}</p>
         {/* Level */}
         <p style={{ marginRight: '25px' }}>Level: {level}</p>
         {/* XP Bar */}
@@ -91,7 +98,9 @@ export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserSta
           <div className={styles.XPBarProgress} style={{ width: `${progress * 100}%` }} />
         </div>
         {/* Fight Button */}
-        <button onClick={handleFightClick}>Fight</button>
+        <button type="button" className={styles['aws-btn']} onClick={handleFightClick}>Fight</button>
+        {/* Fight Record */}
+        <p>Record: {wins} - {losses}</p>
       </div>
       {/* Other components */}
       {showFightModal && <FightModal onClose={handleCloseModal} userId={walletAddress} />}
@@ -101,19 +110,19 @@ export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserSta
         ))}
       </div>
       <div className={styles.StatsInfo}>
-        {Object.keys(stats).map((stat) => (
-          <div key={stat} className={styles.StatRow}>
-            <p title={statDescriptions[stat]}>
-              {stat}:
-              <br />
-              Level {stats[stat]}
-              <br />
-              {typeof statScalings[stat] === 'function' ? `(${statScalings[stat](stats[stat])})` : 'No scaling function found'}
-            </p>
-            <button onClick={() => handleIncrement(stat)} className={styles.StatButton}>+1</button>
-          </div>
-        ))}
-      </div>
+      {Object.keys(stats).map((stat) => (
+        <div key={stat} className={styles.StatRow}>
+          <p title={statDescriptions[stat]}>
+            {stat}:
+            <br />
+            Level {stats[stat]}
+            <br />
+            {typeof statScalings[stat] === 'function' ? `(${statScalings[stat](stats[stat])})` : 'No scaling function found'}
+          </p>
+          <button type="button" className={styles['aws-btn']} onClick={() => handleIncrement(stat)}>+1</button>
+        </div>
+      ))}
     </div>
-  );
+  </div>
+);
 };

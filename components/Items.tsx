@@ -9,9 +9,8 @@ interface ItemProps {
 
 export const Item: FC<ItemProps> = ({ id, name, description }) => {
   return (
-    <div className={styles.Item}>
+    <div className={styles.Item} title={description}> {/* Add the title attribute here */}
       <h3>{name}</h3>
-      <p>{description}</p>
     </div>
   );
 };

@@ -129,37 +129,41 @@ exports.handler = async (event, context) => {
   const client = new MongoClient(process.env.MONGODB_URI);
   await client.connect();
 
-// Fetch the user and enemy stats from the database
-const db = client.db(process.env.DB_NAME);
-const User = await db.collection('users').findOne({ walletAddress: userId });
-const Enemy = await db.collection('users').findOne({ walletAddress: enemyId }); // enemyId is now the wallet address of a random user
+  // Fetch the user and enemy stats from the database
+  const db = client.db(process.env.DB_NAME);
+  const User = await db.collection('users').findOne({ walletAddress: userId });
+  const Enemy = await db.collection('users').findOne({ walletAddress: enemyId }); // enemyId is now the wallet address of a random user
 
-// Convert player stats to Player objects
-const p1 = new Player(User.stats);
-const p2 = new Player(Enemy.stats);
+  // Convert player stats to Player objects
+  const p1 = new Player(User.stats);
+  const p2 = new Player(Enemy.stats);
 
-const { result, fightLog } = fight(p1, p2);
+  const { result, fightLog } = fight(p1, p2);
 
-// Update user's XP based on the result
-let xpGain;
-if (result === "User wins!") {
-  xpGain = 50;
-} else if (result === "Enemy wins!") {
-  xpGain = 5;
-} else {
-  xpGain = 0;  // No XP gain in case of a draw
-}
+  // Update user's XP and win/loss tracker based on the result
+  let xpGain;
+  let updateFields;
+  if (result === "User wins!") {
+    xpGain = 50;
+    updateFields = { $inc: { 'XP': xpGain, 'wins': 1 } };
+  } else if (result === "Enemy wins!") {
+    xpGain = 5;
+    updateFields = { $inc: { 'XP': xpGain, 'losses': 1 } };
+  } else {
+    xpGain = 0;  // No XP gain in case of a draw
+    updateFields = { $inc: { 'XP': xpGain } };
+  }
 
-await db.collection('users').updateOne(
-  { walletAddress: userId },
-  { $inc: { 'XP': xpGain } }
-);
+  await db.collection('users').updateOne(
+    { walletAddress: userId },
+    updateFields
+  );
 
-// Close the MongoDB connection
-await client.close();
+  // Close the MongoDB connection
+  await client.close();
 
-return {
-  statusCode: 200,
-  body: JSON.stringify({ result, fightLog, enemyStats: Enemy.stats, xpGain }),
-};
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ result, fightLog, enemyStats: Enemy.stats, xpGain }),
+  };
 };

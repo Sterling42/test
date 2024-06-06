@@ -99,16 +99,6 @@
   color: white;
 }
 
-.GoldXPBar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 30px;
-  padding: 5px;
-  background-color: var(--tertiary-color);
-  border-radius: 10px;
-}
-
 .FightModal {
   position: fixed;
   top: 0;
@@ -139,7 +129,7 @@
 }
 
 .XPBar {
-  height: 20px;
+  height: 30px;
   width: 100%;
   background-color: #ddd;
 }
@@ -181,7 +171,6 @@
 
 }
 
-/* Home.module.css */
 .CharacterImage {
   width: 400px;
   height: 400px;

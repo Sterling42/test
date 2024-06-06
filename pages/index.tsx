@@ -13,6 +13,8 @@ const Home: NextPage = (props) => {
   const [userStats, setUserStats] = useState(null);
   const [xGold, setXGold] = useState(0);
   const [XP, setXP] = useState(0);
+  const [wins, setWins] = useState(0); // Add this line
+  const [losses, setLosses] = useState(0); // Add this line
 
   useEffect(() => {
     const fetchUserStats = async () => {
@@ -23,12 +25,16 @@ const Home: NextPage = (props) => {
             setUserStats(response.data.data.stats);
             setXGold(response.data.data.xGold);
             setXP(response.data.data.XP);
+            setWins(response.data.data.wins); // Add this line
+            setLosses(response.data.data.losses); // Add this line
           } else if (response.data.message === 'User not found') {
             // If the user does not exist, send a POST request to create the user
             const response = await axios.post(`/api/user`, { walletAddress: publicKey.toString() });
             setUserStats(response.data.data.stats);
             setXGold(response.data.data.xGold);
             setXP(response.data.data.XP);
+            setWins(response.data.data.wins); // Add this line
+            setLosses(response.data.data.losses); // Add this line
           }
         } catch (error) {
           console.error('Error fetching user stats:', error);
@@ -57,6 +63,8 @@ const Home: NextPage = (props) => {
             setXGold(newXGold);
             setXP(newXP);
           }}
+          wins={wins} // Add this line
+          losses={losses} // Add this line
         />
       )}
     </div>
