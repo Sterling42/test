@@ -88,9 +88,9 @@
         "npm:mongodb@^6.7.0",
         "npm:mongoose@^8.4.1",
         "npm:netlify-cli@^17.25.0",
-        "npm:next@12.1.2",
-        "npm:react-dom@^17.0.2",
-        "npm:react@^17.0.2",
+        "npm:next@^14.2.3",
+        "npm:react-dom@^18.3.1",
+        "npm:react@^18.3.1",
         "npm:typescript@^4.6.3"
       ]
     }
