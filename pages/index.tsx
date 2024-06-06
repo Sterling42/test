@@ -1,9 +1,9 @@
+// index.tsx
 import { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import styles from '../styles/Home.module.css';
 import { AppBar } from '../components/AppBar';
 import { UserStats } from '../components/UserStats';
-import { GoldXPBar } from '../components/GoldXPBar'; // Import the GoldXPBar component
 import Head from 'next/head';
 import { useWallet } from '@solana/wallet-adapter-react';
 import axios from 'axios';
@@ -45,24 +45,19 @@ const Home: NextPage = (props) => {
         <meta name="description" content="Wallet-Adapter" />
         <link rel="icon" href="/sol.ico" />
       </Head>
-      <AppBar />
+      <AppBar xGold={xGold} />
       {userStats && (
-        <>
-          <GoldXPBar 
-            xGold={xGold} 
-            XP={XP} 
-            setCurrencies={(newXGold, newXP) => {
-              setXGold(newXGold);
-              setXP(newXP);
-            }} 
-            userStats={userStats} // Add the userStats prop
-          />
-          <UserStats
-            walletAddress={publicKey.toString()}
-            stats={userStats}
-            setUserStats={setUserStats}
-          />
-        </>
+        <UserStats
+          walletAddress={publicKey.toString()}
+          stats={userStats}
+          setUserStats={setUserStats}
+          xGold={xGold}
+          XP={XP}
+          setCurrencies={(newXGold, newXP) => {
+            setXGold(newXGold);
+            setXP(newXP);
+          }}
+        />
       )}
     </div>
   );

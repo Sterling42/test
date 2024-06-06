@@ -3,22 +3,22 @@
   display: flex;
   flex-direction: column;
   text-align: left;
-  background-color: #028174;
+  background-color: var(--primary-color);
+  overflow-y: auto; 
+  height: 100vh;
 }
 
 .AppHeader {
   height: 90px;
   display: flex;
-  background-color: #26648E;
-  flex-direction: row;
+  background-color: var(--secondary-color);
   align-items: center;
   justify-content: space-between;
   font-size: 50px;
   color: white;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 0 20px;
   flex-wrap: wrap;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-primary);
 }
 
 .AppBody {
@@ -32,70 +32,44 @@
   padding-top: 50px;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.input {
-  background: #f2f2f2;
-}
-
-.formField {
-  margin: 10px 0 10px 0;
-  min-width: 500px;
-  padding: 15px;
-  font-size: 16px;
-  border: 0;
-  font-family: "Roboto", sans-serif;
-}
-
-.formButton {
-  margin: 10px 0 10px 0;
-  padding: 15px;
-  font-size: 16px;
-  border: 0;
-  font-family: "Roboto", sans-serif;
-}
-
 .Stats {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: flex-start;
+  align-self: flex-start; /* Align div to the start of the container */
   padding: 20px;
-  background-color: #1f3a60;
+  background-color: var(--tertiary-color);
   border-radius: 10px;
-  margin: 20px;
+  margin: 10px;
+  width: calc(100% - 60px);
 }
 
-.CharacterImage {
-  width: 30%;
-  height: auto;
-  display: inline-block;
+.Items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 items per row */
+  grid-template-rows: repeat(4, 1fr); /* 3 rows */
+  gap: 20px; /* Reduced gap size */
+  justify-items: center;
+  width: 40%; /* Adjusted width */
 }
 
 .StatsInfo {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  width: 70%;
+  flex-direction: column;
+  align-items: center;
+  width: 20%; /* Adjusted width */
 }
 
 .StatRow {
-  width: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
   margin-bottom: 10px;
 }
 
 .StatButton {
-  margin-left: 10px;
-  padding: 5px 10px;
-  font-size: 16px;
-  color: #ffffff;
-  background-color: #4CAF50;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  width: 30%; /* Adjusted width */
 }
 
 .StatButton:hover {
@@ -104,14 +78,13 @@
 
 .StatsInfo p {
   font-size: 18px;
-  margin: 0;
+  margin: 5px;
   color: #ffffff;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-primary);
 }
 
 .Progress {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   width: 100%;
   margin-bottom: 20px;
@@ -122,27 +95,18 @@
   padding: 10px;
   background-color: #4CAF50;
   border-radius: 5px;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-primary);
   color: white;
 }
 
 .GoldXPBar {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin: 20px;
-  padding: 20px;
-  background-color: #1f3a60;
+  margin: 30px;
+  padding: 5px;
+  background-color: var(--tertiary-color);
   border-radius: 10px;
-}
-
-.EmptyBox {
-  width: 30px;
-  height: 30px;
-  border: 1px solid #ffffff;
-  display: inline-block;
-  vertical-align: middle;
 }
 
 .FightModal {
@@ -167,4 +131,70 @@
 .statsContainer {
   display: flex;
   justify-content: space-between;
+}
+
+.logContainer {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.XPBar {
+  height: 20px;
+  width: 100%;
+  background-color: #ddd;
+}
+
+.XPBarProgress {
+  height: 100%;
+  background-color: #4caf50;
+}
+
+.Item {
+  width: 150px;
+  height: 150px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.Item h3 {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  background: white;
+  padding: 0 5px;
+}
+
+@media (max-width: 768px) { /* Adjust this value based on when you want the layout to change */
+  .Stats {
+    flex-direction: column; /* Stack the .Items and .StatsInfo divs vertically */
+  }
+  .CharacterStats {
+    padding-right: 0; /* Remove the padding on the right side */
+  }
+  .StatsInfo {
+    width: 100%; /* Make the .StatsInfo div take up the full width */
+  }
+  .Items {
+    width: 100%; /* Make the .Items div take up the full width */
+  }
+
+}
+
+/* Home.module.css */
+.CharacterImage {
+  width: 400px;
+  height: 400px;
+  position: relative;
+  margin-top: 20px;
+  /* Add any other styles you want for the image */
+}
+
+.CharacterStats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-right: 8%;
+  margin: 10px;
 }

@@ -1,9 +1,9 @@
-export const config = { api: { externalResolver: true } };
-
+import mongoose from 'mongoose';
 import dbConnect from '../../lib/mongodb';
 import User from '../../models/User';
 
 export default async function handler(req, res) {
+  console.log('Received request:', req.method, req.body, req.query); // Log the received request
   const { method } = req;
 
   await dbConnect();
@@ -11,6 +11,9 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       const { walletAddress } = req.query;
+      if (!walletAddress || walletAddress.length !== 44) {
+        return res.status(400).json({ success: false, message: 'Invalid wallet address' });
+      }
       try {
         const user = await User.findOne({ walletAddress });
         if (user) {
@@ -25,13 +28,20 @@ export default async function handler(req, res) {
       break;
     case 'POST':
       try {
-        const existingUser = await User.findOne({ walletAddress: req.body.walletAddress });
+        const { walletAddress, stats } = req.body;
+        if (!walletAddress || walletAddress.length !== 44) {
+          return res.status(400).json({ success: false, message: 'Invalid wallet address' });
+        }
+        const existingUser = await User.findOne({ walletAddress });
         if (existingUser) {
           return res.status(400).json({ success: false, message: 'Wallet already registered' });
         }
 
         // Create the new user
-        const user = new User({ walletAddress: req.body.walletAddress });
+        const user = new User({
+          walletAddress,
+          stats,
+        });
 
         // Save the user to the database
         await user.save();
@@ -43,8 +53,8 @@ export default async function handler(req, res) {
       break;
     case 'PUT':
       const { walletAddress: updateWalletAddress, stats, xGold, XP } = req.body;
-      if (!updateWalletAddress) {
-        return res.status(400).json({ success: false, message: 'Invalid request body' });
+      if (!updateWalletAddress || updateWalletAddress.length !== 44) {
+        return res.status(400).json({ success: false, message: 'Invalid wallet address' });
       }
       try {
         const user = await User.findOne({ walletAddress: updateWalletAddress });
