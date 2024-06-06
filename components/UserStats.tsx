@@ -38,9 +38,18 @@ export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserSta
     setShowFightModal(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = async () => {
     console.log('Close button clicked');
     setShowFightModal(false);
+  
+    // Fetch the updated user stats and currencies from the server
+    try {
+      const response = await axios.get(`/api/user`, { params: { walletAddress: walletAddress } });
+      setUserStats(response.data.data.stats);
+      setCurrencies(response.data.data.xGold, response.data.data.XP);
+    } catch (err) {
+      console.error('Error fetching updated user stats:', err.response ? err.response.data : err.message);
+    }
   };
 
   // Calculate current level and progress towards next level
@@ -99,7 +108,7 @@ export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserSta
               <br />
               Level {stats[stat]}
               <br />
-              ({statScalings[stat](stats[stat])})
+              {typeof statScalings[stat] === 'function' ? `(${statScalings[stat](stats[stat])})` : 'No scaling function found'}
             </p>
             <button onClick={() => handleIncrement(stat)} className={styles.StatButton}>+1</button>
           </div>

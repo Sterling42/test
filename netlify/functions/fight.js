@@ -129,22 +129,37 @@ exports.handler = async (event, context) => {
   const client = new MongoClient(process.env.MONGODB_URI);
   await client.connect();
 
-  // Fetch the user and enemy stats from the database
-  // Fetch the user and enemy stats from the database
+// Fetch the user and enemy stats from the database
 const db = client.db(process.env.DB_NAME);
 const User = await db.collection('users').findOne({ walletAddress: userId });
-const Enemy = await db.collection('enemies').findOne({ id: enemyId });
-  // Convert player stats to Player objects
-  const p1 = new Player(User.stats);
-  const p2 = new Player(Enemy.stats);
+const Enemy = await db.collection('users').findOne({ walletAddress: enemyId }); // enemyId is now the wallet address of a random user
 
-  const { result, fightLog } = fight(p1, p2);
+// Convert player stats to Player objects
+const p1 = new Player(User.stats);
+const p2 = new Player(Enemy.stats);
 
-  // Close the MongoDB connection
-  await client.close();
+const { result, fightLog } = fight(p1, p2);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ result, fightLog, enemyStats: Enemy.stats }),
-  };
+// Update user's XP based on the result
+let xpGain;
+if (result === "User wins!") {
+  xpGain = 50;
+} else if (result === "Enemy wins!") {
+  xpGain = 5;
+} else {
+  xpGain = 0;  // No XP gain in case of a draw
+}
+
+await db.collection('users').updateOne(
+  { walletAddress: userId },
+  { $inc: { 'XP': xpGain } }
+);
+
+// Close the MongoDB connection
+await client.close();
+
+return {
+  statusCode: 200,
+  body: JSON.stringify({ result, fightLog, enemyStats: Enemy.stats, xpGain }),
+};
 };

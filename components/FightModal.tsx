@@ -39,37 +39,37 @@ useEffect(() => {
   fetchUserStats();
 }, [userId]);
 
-  const handleFight = async () => {
-    const endpoint = process.env.NODE_ENV === 'development' 
-      ? 'http://localhost:8888/.netlify/functions/fight' 
-      : '/api/fight';
-  
-    // Generate a random enemyId
-    const enemyId = (Math.floor(Math.random() * 100) + 1).toString();
+const handleFight = async () => {
+  const endpoint = process.env.NODE_ENV === 'development' 
+    ? 'http://localhost:8888/.netlify/functions/fight' 
+    : '/.netlify/functions/fight';
+
+  try {
+    // Fetch a random user's wallet address from the database
+    const enemyResponse = await axios.get('/.netlify/functions/RandomUser');
+    const enemyId = enemyResponse.data.walletAddress;
     setEnemyId(enemyId);
-  
-    try {
-  const response = await fetch(endpoint, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ userId: userId, enemyId: enemyId }), // Send userId and enemyId instead of stats
-  });
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId: userId, enemyId: enemyId }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    setEnemyStats(data.enemyStats); // Set the enemy stats from the fight response
+    setFightLog(data.fightLog);
+    setFightResult(data.result);
+  } catch (error) {
+    console.error('Error fetching fight data:', error);
   }
-
-  const data = await response.json();
-  console.log(data.enemyStats); // Log the enemy stats
-  setFightLog(data.fightLog);
-  setFightResult(data.result);
-  setEnemyStats(data.enemyStats); // Set the enemy stats
-} catch (error) {
-  console.error('Error fetching fight data:', error);
-}
-  };
+};
 
   return (
     <div className={styles.FightModal}>
