@@ -53,7 +53,7 @@ const Home: NextPage = (props) => {
         <link rel="icon" href="/sol.ico" />
       </Head>
       <AppBar />
-      <Navbar xGold={xGold} /> {/* Use the Navbar component */}
+      <Navbar xGold={xGold} userId={publicKey?.toString()} /> {/* Use the Navbar component */}
       {userStats && (
         <UserStats
           walletAddress={publicKey.toString()}

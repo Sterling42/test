@@ -123,7 +123,8 @@ exports.handler = async (event, context) => {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  const { userId, enemyId } = JSON.parse(event.body);
+  // After parsing the event body
+  const { userId, enemyId, isPvE } = JSON.parse(event.body);
 
   // Connect to the MongoDB client
   const client = new MongoClient(process.env.MONGODB_URI);
@@ -132,7 +133,16 @@ exports.handler = async (event, context) => {
   // Fetch the user and enemy stats from the database
   const db = client.db(process.env.DB_NAME);
   const User = await db.collection('users').findOne({ walletAddress: userId });
-  const Enemy = await db.collection('users').findOne({ walletAddress: enemyId }); // enemyId is now the wallet address of a random user
+
+  let Enemy;
+  if (isPvE) {
+    // Fetch enemy from the enemies collection using a hardcoded id of 1
+    const hardcodedEnemyId = "1";
+    Enemy = await db.collection('enemies').findOne({ id: hardcodedEnemyId });
+  } else {
+    // Fetch enemy from the users collection using the enemyId from the request body
+    Enemy = await db.collection('users').findOne({ walletAddress: enemyId });
+  }
 
   // Convert player stats to Player objects
   const p1 = new Player(User.stats);

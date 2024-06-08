@@ -6,7 +6,7 @@ import { Item, items } from './Items'; // Import the Item component and items ar
 import styles from '../styles/UserStats.module.css';
 import { FightModal } from './FightModal';
 import characterImage from '../public/character.png'; // Import your image file here
-import { statScalings } from './config';
+import { statScalings, statDescriptions } from './config';
 
 interface UserStatsProps {
   walletAddress: string;
@@ -21,18 +21,6 @@ interface UserStatsProps {
   losses: number; // Add this line
 }
 
-const statDescriptions = {
-  ATK: 'Determines the base damage your character can deal to opponents.',
-  DEF: 'Reduces the amount of damage your character takes from opponents\' attacks.',
-  HP: 'Represents the total amount of damage your character can take before they are defeated.',
-  INT: 'Magic Damage Scaling and increases XP gained.',
-  SPD: 'Determines how quickly your character can attack.',
-  END: 'Represents your character\'s stamina, affecting how long they can attack with full power.',
-  CRIT: 'Affects your character\'s critical damage modifier.',
-  LUCK: 'Influences a variety of factors, such as the chance to land a critical hit, the chance to dodge attacks, or the likelihood of getting more gold.',
-  DGN: 'Represents your character\'s degeneration.',
-};
-
 export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserStats, xGold, XP, setCurrencies, wins, losses }) => {
   const [showFightModal, setShowFightModal] = useState(false);
 
@@ -41,7 +29,6 @@ export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserSta
   };
 
   const handleCloseModal = async () => {
-    console.log('Close button clicked');
     setShowFightModal(false);
   
     // Fetch the updated user stats and currencies from the server
@@ -82,9 +69,6 @@ export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserSta
     }
   };
 
-  // UserStats.tsx
-// ... (rest of the code)
-
 return (
   <div className={styles.Stats}>
     <div className={styles.CharacterStats}>
@@ -101,12 +85,12 @@ return (
         <div className={styles.XPBarProgress} style={{ width: `${progress * 100}%` }} />
       </div>
       {/* Fight Button */}
-      <button type="button" className={styles['FightButton']} onClick={handleFightClick}>Fight</button>
+      <button type="button" className={styles['FightButton']} onClick={handleFightClick}>Fight PvP</button>
       {/* Fight Record */}
       <p className={styles.Record}>Record: {wins} - {losses}</p>
     </div>
     {/* Other components */}
-    {showFightModal && <FightModal onClose={handleCloseModal} userId={walletAddress} />}
+    {showFightModal && <FightModal onClose={handleCloseModal} userId={walletAddress} isPvE={false}/>}
     <div className={styles.Items}>
       {items.map(item => (
         <Item key={item.id} {...item} />

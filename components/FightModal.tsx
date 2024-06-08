@@ -1,5 +1,4 @@
 // FightModal.tsx
-// Inside FightModal component
 import { FC, useState, useEffect, useRef } from 'react';
 import axios from 'axios'; // Import axios
 import styles from '../styles/FightModal.module.css';
@@ -7,9 +6,10 @@ import styles from '../styles/FightModal.module.css';
 interface FightModalProps {
   onClose: () => void;
   userId: string;
+  isPvE: boolean;
 }
 
-export const FightModal: FC<FightModalProps> = ({ onClose, userId }) => {
+export const FightModal: FC<FightModalProps> = ({ onClose, userId, isPvE }) => {
   const [userStats, setUserStats] = useState<Record<string, number>>({}); // Add userStats state
   const [enemyId, setEnemyId] = useState<string | null>(null);
   const [enemyStats, setEnemyStats] = useState<Record<string, number>>({});
@@ -24,38 +24,33 @@ export const FightModal: FC<FightModalProps> = ({ onClose, userId }) => {
   }, []);
 
   // Fetch user stats when the component mounts
-useEffect(() => {
-  const fetchUserStats = async () => {
-    try {
-      const response = await axios.get(`/api/user`, { params: { walletAddress: userId } });
-      if (isMounted.current) {
-        setUserStats(response.data.data.stats); // Access stats with response.data.data.stats
+  useEffect(() => {
+    const fetchUserStats = async () => {
+      try {
+        const response = await axios.get(`/api/user`, { params: { walletAddress: userId } });
+        if (isMounted.current) {
+          setUserStats(response.data.data.stats); // Access stats with response.data.data.stats
+        }
+      } catch (error) {
+        console.error('Error fetching user stats:', error);
       }
-    } catch (error) {
-      console.error('Error fetching user stats:', error);
-    }
-  };
+    };
 
-  fetchUserStats();
-}, [userId]);
+    fetchUserStats();
+  }, [userId]);
 
-const handleFight = async () => {
+ const handleFight = async () => {
   const endpoint = process.env.NODE_ENV === 'development' 
     ? 'http://localhost:8888/.netlify/functions/fight' 
     : '/.netlify/functions/fight';
 
   try {
-    // Fetch a random user's wallet address from the database
-    const enemyResponse = await axios.get('/.netlify/functions/RandomUser');
-    const enemyId = enemyResponse.data.walletAddress;
-    setEnemyId(enemyId);
-
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userId: userId, enemyId: enemyId }),
+      body: JSON.stringify({ userId, isPvE }),
     });
 
     if (!response.ok) {
@@ -63,6 +58,7 @@ const handleFight = async () => {
     }
 
     const data = await response.json();
+    setEnemyId(data.enemyId); // Set the enemy id from the fight response
     setEnemyStats(data.enemyStats); // Set the enemy stats from the fight response
     setFightLog(data.fightLog);
     setFightResult(data.result);
@@ -75,7 +71,7 @@ const handleFight = async () => {
     <div className={styles.FightModal}>
       <div className={styles.FightModalContent}>
         <div className={styles.statsContainer}>
-        <div>
+          <div>
             <h1>User Stats</h1>
             {userStats && Object.keys(userStats).map((stat) => (
               <p key={stat}>{stat}: {userStats[stat]}</p>
