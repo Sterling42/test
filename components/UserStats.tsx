@@ -109,8 +109,8 @@ export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserSta
           <Item key={item.id} {...item} />
         ))}
       </div>
-      <div className={styles.StatsInfo}>
-      {Object.keys(stats).map((stat) => (
+          <div className={styles.StatsInfo}>
+      {['ATK', 'DEF', 'HP', 'INT', 'SPD', 'END', 'CRIT', 'LUCK', 'DGN'].map((stat) => (
         <div key={stat} className={styles.StatRow}>
           <p title={statDescriptions[stat]}>
             {stat}:

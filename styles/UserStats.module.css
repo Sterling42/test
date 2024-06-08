@@ -15,7 +15,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-right: 8%;
     margin: 10px;
   }
   
@@ -23,7 +22,7 @@
     width: 400px;
     height: 400px;
     position: relative;
-    margin-top: 20px;
+    margin-top: 35px;
   }
   
   .XPBar {
@@ -47,11 +46,12 @@
   
   .Items {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    margin: 90px 50px;
+    gap: 30px;
     justify-items: center;
-    width: 40%;
+    width: 50%;
   }
   
   .StatsInfo {
@@ -82,13 +82,19 @@
       flex-direction: column;
     }
     .CharacterStats {
-      padding-right: 0;
+      padding-left: 50px;
     }
     .StatsInfo {
       width: 100%;
     }
     .Items {
-      width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(6, 1fr);
+        margin: 10px 0px;
+        gap: 30px;
+        justify-items: center;
+        width: 100%;
     }
   }
 
@@ -96,13 +102,14 @@
     width: 150px;
     height: 150px;
     padding: 10px;
+    background-color: aqua;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     position: relative;
   }
   
   .Item h3 {
     position: absolute;
-    top: -20px;
+    top: -44px;
     left: 0;
     background: white;
     padding: 0 5px;
