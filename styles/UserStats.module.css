@@ -1,0 +1,109 @@
+.Stats {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    align-self: flex-start;
+    padding: 20px;
+    background-color: var(--tertiary-color);
+    border-radius: 10px;
+    margin: 10px;
+    width: calc(100% - 60px);
+  }
+  
+  .CharacterStats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-right: 8%;
+    margin: 10px;
+  }
+  
+  .CharacterImage {
+    width: 400px;
+    height: 400px;
+    position: relative;
+    margin-top: 20px;
+  }
+  
+  .XPBar {
+    height: 30px;
+    width: 100%;
+    background-color: #ddd;
+  }
+  
+  .XPBarProgress {
+    height: 100%;
+    background-color: #4caf50;
+  }
+  
+  .FightButton {
+    width: 30%;
+  }
+  
+  .FightButton:hover {
+    background-color: #45a049;
+  }
+  
+  .Items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 20px;
+    justify-items: center;
+    width: 40%;
+  }
+  
+  .StatsInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20%;
+  }
+  
+  .StatRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin: -6px;
+  }
+  
+  .StatButton {
+    width: 30%;
+  }
+  
+  .StatButton:hover {
+    background-color: #45a049;
+  }
+  
+  @media (max-width: 768px) {
+    .Stats {
+      flex-direction: column;
+    }
+    .CharacterStats {
+      padding-right: 0;
+    }
+    .StatsInfo {
+      width: 100%;
+    }
+    .Items {
+      width: 100%;
+    }
+  }
+
+  .Item {
+    width: 150px;
+    height: 150px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  
+  .Item h3 {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    background: white;
+    padding: 0 5px;
+  }

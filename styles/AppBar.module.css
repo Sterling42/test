@@ -1,0 +1,13 @@
+.AppHeader {
+    height: 90px;
+    display: flex;
+    background-color: var(--secondary-color);
+    align-items: center;
+    justify-content: space-between;
+    font-size: 50px;
+    color: white;
+    padding: 0 20px;
+    flex-wrap: wrap;
+    font-family: var(--font-primary);
+  }
+  

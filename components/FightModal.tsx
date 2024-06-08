@@ -2,7 +2,7 @@
 // Inside FightModal component
 import { FC, useState, useEffect, useRef } from 'react';
 import axios from 'axios'; // Import axios
-import styles from '../styles/Home.module.css';
+import styles from '../styles/FightModal.module.css';
 
 interface FightModalProps {
   onClose: () => void;

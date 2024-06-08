@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/UserStats.module.css';
 
 interface ItemProps {
   id: number;

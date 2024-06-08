@@ -4,6 +4,7 @@ import { NextPage } from 'next';
 import styles from '../styles/Home.module.css';
 import { AppBar } from '../components/AppBar';
 import { UserStats } from '../components/UserStats';
+import Navbar from '../components/Navbar'; // Import the Navbar component
 import Head from 'next/head';
 import { useWallet } from '@solana/wallet-adapter-react';
 import axios from 'axios';
@@ -51,7 +52,8 @@ const Home: NextPage = (props) => {
         <meta name="description" content="Wallet-Adapter" />
         <link rel="icon" href="/sol.ico" />
       </Head>
-      <AppBar xGold={xGold} />
+      <AppBar />
+      <Navbar xGold={xGold} /> {/* Use the Navbar component */}
       {userStats && (
         <UserStats
           walletAddress={publicKey.toString()}

@@ -8,19 +8,6 @@
   height: 100vh;
 }
 
-.AppHeader {
-  height: 90px;
-  display: flex;
-  background-color: var(--secondary-color);
-  align-items: center;
-  justify-content: space-between;
-  font-size: 50px;
-  color: white;
-  padding: 0 20px;
-  flex-wrap: wrap;
-  font-family: var(--font-primary);
-}
-
 .AppBody {
   height: 100%;
   display: flex;
@@ -30,57 +17,6 @@
   font-size: calc(10px + 2vmin);
   color: white;
   padding-top: 50px;
-}
-
-.Stats {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-  align-self: flex-start; /* Align div to the start of the container */
-  padding: 20px;
-  background-color: var(--tertiary-color);
-  border-radius: 10px;
-  margin: 10px;
-  width: calc(100% - 60px);
-}
-
-.Items {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 items per row */
-  grid-template-rows: repeat(4, 1fr); /* 3 rows */
-  gap: 20px; /* Reduced gap size */
-  justify-items: center;
-  width: 40%; /* Adjusted width */
-}
-
-.StatsInfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 20%; /* Adjusted width */
-}
-
-.StatRow {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.StatButton {
-  width: 30%; /* Adjusted width */
-}
-
-.StatButton:hover {
-  background-color: #45a049;
-}
-
-.StatsInfo p {
-  font-size: 18px;
-  margin: 5px;
-  color: #ffffff;
-  font-family: var(--font-primary);
 }
 
 .Progress {
@@ -99,91 +35,3 @@
   color: white;
 }
 
-.FightModal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.FightModalContent {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-.statsContainer {
-  display: flex;
-  justify-content: space-between;
-}
-
-.logContainer {
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.XPBar {
-  height: 30px;
-  width: 100%;
-  background-color: #ddd;
-}
-
-.XPBarProgress {
-  height: 100%;
-  background-color: #4caf50;
-}
-
-.Item {
-  width: 150px;
-  height: 150px;
-  padding: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  position: relative;
-}
-
-.Item h3 {
-  position: absolute;
-  top: -20px;
-  left: 0;
-  background: white;
-  padding: 0 5px;
-}
-
-@media (max-width: 768px) { /* Adjust this value based on when you want the layout to change */
-  .Stats {
-    flex-direction: column; /* Stack the .Items and .StatsInfo divs vertically */
-  }
-  .CharacterStats {
-    padding-right: 0; /* Remove the padding on the right side */
-  }
-  .StatsInfo {
-    width: 100%; /* Make the .StatsInfo div take up the full width */
-  }
-  .Items {
-    width: 100%; /* Make the .Items div take up the full width */
-  }
-
-}
-
-.CharacterImage {
-  width: 400px;
-  height: 400px;
-  position: relative;
-  margin-top: 20px;
-  /* Add any other styles you want for the image */
-}
-
-.CharacterStats {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-right: 8%;
-  margin: 10px;
-}

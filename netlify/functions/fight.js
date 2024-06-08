@@ -167,3 +167,7 @@ exports.handler = async (event, context) => {
     body: JSON.stringify({ result, fightLog, enemyStats: Enemy.stats, xpGain }),
   };
 };
+
+// At the end of fight.js
+exports.Player = Player;
+exports.fight = fight;

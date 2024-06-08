@@ -3,7 +3,7 @@ import { FC, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image'; // Import the Image component
 import { Item, items } from './Items'; // Import the Item component and items array
-import styles from '../styles/Home.module.css';
+import styles from '../styles/UserStats.module.css';
 import { FightModal } from './FightModal';
 import characterImage from '../public/character.png'; // Import your image file here
 import { statScalings } from './config';
@@ -98,7 +98,7 @@ export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserSta
           <div className={styles.XPBarProgress} style={{ width: `${progress * 100}%` }} />
         </div>
         {/* Fight Button */}
-        <button type="button" className={styles['aws-btn']} onClick={handleFightClick}>Fight</button>
+        <button type="button" className={styles['FightButton']} onClick={handleFightClick}>Fight</button>
         {/* Fight Record */}
         <p>Record: {wins} - {losses}</p>
       </div>
@@ -119,7 +119,7 @@ export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserSta
             <br />
             {typeof statScalings[stat] === 'function' ? `(${statScalings[stat](stats[stat])})` : 'No scaling function found'}
           </p>
-          <button type="button" className={styles['aws-btn']} onClick={() => handleIncrement(stat)}>+1</button>
+          <button type="button" className={styles['StatButton']} onClick={() => handleIncrement(stat)}>+1</button>
         </div>
       ))}
     </div>
