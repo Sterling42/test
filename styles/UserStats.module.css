@@ -8,109 +8,159 @@
     border-radius: 10px;
     margin: 10px;
     width: calc(100% - 60px);
-  }
-  
-  .CharacterStats {
+}
+
+.CharacterStats {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 10px;
-  }
-  
-  .CharacterImage {
+    font-size: 16px; /* Default font size */
+    width: 30%;
+}
+
+.CharacterImage {
     width: 400px;
     height: 400px;
     position: relative;
-    margin-top: 35px;
-  }
-  
-  .XPBar {
+    margin-top: 10px;
+}
+
+.XPBar {
     height: 30px;
     width: 100%;
     background-color: #ddd;
-  }
-  
-  .XPBarProgress {
+}
+
+.XPBarProgress {
     height: 100%;
     background-color: #4caf50;
-  }
-  
-  .FightButton {
+}
+
+/* Style for Total Power */
+.CharacterStats p:nth-child(1) {
+    font-size: 24px; /* Adjust as needed */
+    font-weight: bold;
+    margin-top: 4px;
+}
+
+/* Style for Level */
+.CharacterStats p:nth-child(3) {
+    font-size: 20px; /* Adjust as needed */
+    font-weight: bold;
+}
+
+/* Style for Fight Button */
+.FightButton {
     width: 30%;
-  }
-  
-  .FightButton:hover {
-    background-color: #45a049;
-  }
-  
-  .Items {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 30px; /* Add margin to the top */
+}
+
+.FightButton:hover {
+    background-color: #0056b3;
+}
+
+/* Style for Record */
+.Record {
+    font-size: 22px; /* Increase font size */
+    font-weight: bold; /* Make it bold */
+}
+
+.Items {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    margin: 90px 50px;
-    gap: 30px;
+    margin: 80px 50px;
+    gap: 10px;
     justify-items: center;
     width: 50%;
-  }
-  
-  .StatsInfo {
+}
+
+.StatsInfo {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 20%;
-  }
-  
-  .StatRow {
+}
+
+.StatRow {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
     margin: -6px;
-  }
-  
-  .StatButton {
+}
+
+.StatButton {
     width: 30%;
-  }
-  
-  .StatButton:hover {
+}
+
+.StatButton:hover {
     background-color: #45a049;
-  }
-  
-  @media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
     .Stats {
-      flex-direction: column;
+        flex-direction: column;
+        width: 97%;
+        padding: 5px;
+        margin: 5px;
     }
     .CharacterStats {
-      padding-left: 50px;
+        padding-left: 0;
+        width: 100%;
+        margin: 5px 0;
+    }
+    .CharacterImage {
+        width: 100%;
+        height: auto;
+    }
+    .FightButton {
+        width: 100%;
+        margin-top: 10px;
     }
     .StatsInfo {
-      width: 100%;
+        width: 100%;
     }
     .Items {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(6, 1fr);
-        margin: 10px 0px;
-        gap: 30px;
+        margin: 5px 0;
+        gap: 5px;
         justify-items: center;
         width: 100%;
     }
-  }
+    .Item {
+        width: 100%;
+        height: auto;
+        padding: 5px;
+    }
+}
 
-  .Item {
+.Item {
     width: 150px;
     height: 150px;
     padding: 10px;
-    background-color: aqua;
+    background-color: rgb(255, 255, 255);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     position: relative;
-  }
-  
-  .Item h3 {
+    border: 5px solid black; /* Add black border */
+}
+
+.Item h3 {
     position: absolute;
-    top: -44px;
+    top: -19px;
     left: 0;
     background: white;
     padding: 0 5px;
-  }
+}

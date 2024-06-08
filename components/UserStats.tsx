@@ -82,34 +82,37 @@ export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserSta
     }
   };
 
-  return (
-    <div className={styles.Stats}>
-      <div className={styles.CharacterStats}>
-        {/* Character Image */}
-        <div className={styles.CharacterImage}>
-          <Image src={characterImage} alt="Character" layout="fill" objectFit="contain" />
-        </div>
-        {/* Total Power */}
-        <p>Total Power: {Object.values(stats).reduce((a, b) => a + b, 0)}</p>
-        {/* Level */}
-        <p style={{ marginRight: '25px' }}>Level: {level}</p>
-        {/* XP Bar */}
-        <div className={styles.XPBar}>
-          <div className={styles.XPBarProgress} style={{ width: `${progress * 100}%` }} />
-        </div>
-        {/* Fight Button */}
-        <button type="button" className={styles['FightButton']} onClick={handleFightClick}>Fight</button>
-        {/* Fight Record */}
-        <p>Record: {wins} - {losses}</p>
+  // UserStats.tsx
+// ... (rest of the code)
+
+return (
+  <div className={styles.Stats}>
+    <div className={styles.CharacterStats}>
+      {/* Total Power */}
+      <p>Total Power: {Object.values(stats).reduce((a, b) => a + b, 0)}</p>
+      {/* Character Image */}
+      <div className={styles.CharacterImage}>
+        <Image src={characterImage} alt="Character" layout="fill" objectFit="contain" />
       </div>
-      {/* Other components */}
-      {showFightModal && <FightModal onClose={handleCloseModal} userId={walletAddress} />}
-      <div className={styles.Items}>
-        {items.map(item => (
-          <Item key={item.id} {...item} />
-        ))}
+      {/* Level */}
+      <p>Level: {level}</p>
+      {/* XP Bar */}
+      <div className={styles.XPBar}>
+        <div className={styles.XPBarProgress} style={{ width: `${progress * 100}%` }} />
       </div>
-          <div className={styles.StatsInfo}>
+      {/* Fight Button */}
+      <button type="button" className={styles['FightButton']} onClick={handleFightClick}>Fight</button>
+      {/* Fight Record */}
+      <p className={styles.Record}>Record: {wins} - {losses}</p>
+    </div>
+    {/* Other components */}
+    {showFightModal && <FightModal onClose={handleCloseModal} userId={walletAddress} />}
+    <div className={styles.Items}>
+      {items.map(item => (
+        <Item key={item.id} {...item} />
+      ))}
+    </div>
+    <div className={styles.StatsInfo}>
       {['ATK', 'DEF', 'HP', 'INT', 'SPD', 'END', 'CRIT', 'LUCK', 'DGN'].map((stat) => (
         <div key={stat} className={styles.StatRow}>
           <p title={statDescriptions[stat]}>
@@ -117,7 +120,9 @@ export const UserStats: FC<UserStatsProps> = ({ walletAddress, stats, setUserSta
             <br />
             Level {stats[stat]}
             <br />
-            {typeof statScalings[stat] === 'function' ? `(${statScalings[stat](stats[stat])})` : 'No scaling function found'}
+            {typeof statScalings[stat] === 'function' ? 
+              `(${(statScalings[stat](stats[stat])).toFixed(['DEF', 'CRIT', 'LUCK', 'DGN'].includes(stat) ? 2 : 0)}${['DEF', 'CRIT', 'LUCK', 'DGN'].includes(stat) ? '%' : ''})` 
+              : 'No scaling function found'}
           </p>
           <button type="button" className={styles['StatButton']} onClick={() => handleIncrement(stat)}>+1</button>
         </div>
