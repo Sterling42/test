@@ -1,5 +1,8 @@
 // netlify/functions/fight.js
 //p1 is User, p2 is Enemy
+const { MongoClient, ObjectID } = require('mongodb');
+const User = require('../../models/User'); // Import the User Model
+const getRandomUser = require('./RandomUser').handler; // Import the RandomUser function
 // Define the type for a player
 const Player = function(stats) {
     this.ATK = stats.ATK * 2;
@@ -116,8 +119,6 @@ const fight = (User, Enemy) => {
   };
 };
 
-const { MongoClient, ObjectID } = require('mongodb');
-
 exports.handler = async (event, context) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
@@ -140,8 +141,12 @@ exports.handler = async (event, context) => {
     const hardcodedEnemyId = "1";
     Enemy = await db.collection('enemies').findOne({ id: hardcodedEnemyId });
   } else {
-    // Fetch enemy from the users collection using the enemyId from the request body
-    Enemy = await db.collection('users').findOne({ walletAddress: enemyId });
+    // Get a random user
+    const randomUserResponse = await getRandomUser(event, context);
+    const randomUserWalletAddress = JSON.parse(randomUserResponse.body).walletAddress;
+
+    // Use the wallet address of the random user as the enemy's wallet address
+    Enemy = await db.collection('users').findOne({ walletAddress: randomUserWalletAddress });
   }
 
   // Convert player stats to Player objects
@@ -168,6 +173,27 @@ exports.handler = async (event, context) => {
     { walletAddress: userId },
     updateFields
   );
+
+ // Update enemy's XP and win/loss tracker based on the result, if the fight was PvP
+if (!isPvE) {
+  let enemyXpGain;
+  let enemyUpdateFields;
+  if (result === "User wins!") {
+    enemyXpGain = 1;
+    enemyUpdateFields = { $inc: { 'XP': enemyXpGain, 'losses': 1 } };
+  } else if (result === "Enemy wins!") {
+    enemyXpGain = 25;
+    enemyUpdateFields = { $inc: { 'XP': enemyXpGain, 'wins': 1 } };
+  } else {
+    enemyXpGain = 0;  // No XP gain in case of a draw
+    enemyUpdateFields = { $inc: { 'XP': enemyXpGain } };
+  }
+
+  await db.collection('users').updateOne(
+    { walletAddress: Enemy.walletAddress },
+    enemyUpdateFields
+  );
+}
 
   // Close the MongoDB connection
   await client.close();
