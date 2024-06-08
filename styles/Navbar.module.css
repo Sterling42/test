@@ -2,8 +2,10 @@
 .navbar {
     display: flex;
     justify-content: center;
-    margin: 20px 250px;
+    border-radius: 10px;
+    margin: 18px 250px;
     padding: 10px;
+    margin-bottom: 8px;
     background-color: #f8f9fa;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
