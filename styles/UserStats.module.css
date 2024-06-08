@@ -42,7 +42,7 @@
 .CharacterStats p:nth-child(1) {
     font-size: 24px; /* Adjust as needed */
     font-weight: bold;
-    margin-top: 4px;
+    margin-top: 13px;
 }
 
 /* Style for Level */
@@ -79,7 +79,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    margin: 80px 50px;
+    margin: 90px 50px;
     gap: 10px;
     justify-items: center;
     width: 50%;
